@@ -10,8 +10,10 @@
         .container { margin-top: 50px; }
         .card { border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .header-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px 15px 0 0; padding: 20px; }
-        .summary-card { border-radius: 10px; transition: 0.3s; }
+        .summary-card { border-radius: 10px; transition: 0.3s; border: none; }
         .summary-card:hover { transform: translateY(-5px); }
+        /* පින්තූර ලස්සනට තියාගන්න style එකක් */
+        .prod-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -19,28 +21,28 @@
 <div class="container">
 
     <div class="row mb-4 text-center">
-        <div class="col-md-4">
-            <div class="card summary-card bg-primary text-white p-3">
+        <div class="col-md-3 mb-2">
+            <div class="card summary-card bg-primary text-white p-3 shadow-sm">
                 <h5>Total Items</h5>
                 <h3>07</h3>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="card summary-card bg-success text-white p-3">
+        <div class="col-md-3 mb-2">
+            <div class="card summary-card bg-success text-white p-3 shadow-sm">
                 <h5>Categories</h5>
                 <h3>03</h3>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="card summary-card bg-dark text-white p-3">
+        <div class="col-md-3 mb-2">
+            <div class="card summary-card bg-dark text-white p-3 shadow-sm">
                 <h5>Total Stock</h5>
                 <h3>92</h3>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="card summary-card bg-dark text-white p-3">
-                <h5>Image</h5>
-                <h3>7</h3>
+        <div class="col-md-3 mb-2">
+            <div class="card summary-card bg-info text-white p-3 shadow-sm">
+                <h5>Images</h5>
+                <h3>07</h3>
             </div>
         </div>
     </div>
@@ -51,9 +53,10 @@
             <p class="text-center mb-0">First Web Project for Portfolio</p>
         </div>
         <div class="card-body p-4">
-            <table class="table table-hover mt-3">
+            <table class="table table-hover align-middle mt-3">
                 <thead class="table-dark">
                     <tr>
+                        <th>Preview</th>
                         <th>Item Name</th>
                         <th>Price (LKR)</th>
                         <th>Quantity</th>
@@ -62,42 +65,49 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/428/428001.png" class="prod-img"></td>
                         <td>Laptop</td>
                         <td>150,000</td>
                         <td>05</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/689/689304.png" class="prod-img"></td>
                         <td>Mouse</td>
                         <td>1,200</td>
                         <td>12</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/808/808477.png" class="prod-img"></td>
                         <td>Key board</td>
                         <td>1,000</td>
                         <td>15</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/2005/2005085.png" class="prod-img"></td>
                         <td>Computer</td>
                         <td>160,000</td>
                         <td>18</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
-                        <td>i Phone</td>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/644/644458.png" class="prod-img"></td>
+                        <td>iPhone</td>
                         <td>211,000</td>
                         <td>10</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
-                        <td>redmi 15c</td>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/2544/2544087.png" class="prod-img"></td>
+                        <td>Redmi 15c</td>
                         <td>34,000</td>
                         <td>20</td>
                         <td><span class="badge bg-success">In Stock</span></td>
                     </tr>
                     <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" class="prod-img"></td>
                         <td>Note pad</td>
                         <td>57,000</td>
                         <td>12</td>
