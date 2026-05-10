@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise | Personal Finance Tracker</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .header-section { background: #2c3e50; color: white; padding: 30px 0; border-radius: 0 0 20px 20px; margin-bottom: 30px; }
+        .balance-card { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            height: 100%;
+            transition: 0.3s;
+        }
+        .balance-card:hover { transform: translateY(-5px); }
+        .income { color: #27ae60; font-weight: bold; }
+        .expense { color: #e74c3c; font-weight: bold; }
+        .chart-container { max-width: 250px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<div class="header-section text-center shadow">
+    <h1>💰 SpendWise</h1>
+    <p>Smart Finance Tracker for Information Systems Students</p>
+</div>
+
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <div class="row text-center g-3">
+                <div class="col-md-4">
+                    <div class="balance-card">
+                        <h6>Current Balance</h6>
+                        <h3 id="totalBalance">LKR 0</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="balance-card">
+                        <h6>Total Income</h6>
+                        <h2 class="income" id="totalIncome">LKR 0</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="balance-card">
+                        <h6>Total Expense</h6>
+                        <h2 class="expense" id="totalExpense">LKR 0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="balance-card text-center">
+                <h6>Income vs Expense</h6>
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4 shadow-sm mb-4 border-0" style="border-radius: 15px;">
+        <h4 class="mb-3">Add New Transaction</h4>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <input type="text" id="desc" class="form-control" placeholder="Description (e.g. Salary, Food)">
+            </div>
+            <div class="col-md-3">
+                <input type="number" id="amount" class="form-control" placeholder="Amount (LKR)">
+            </div>
+            <div class="col-md-3">
+                <select id="type" class="form-select">
+                    <option value="income">Income (+)</option>
+                    <option value="expense">Expense (-)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100 shadow-sm" onclick="addTransaction()">Add Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4 shadow-sm border-0" style="border-radius: 15px;">
+        <h4 class="mb-3">Recent Transactions</h4>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionList">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let transactions = [];
+    let myChart;
+
+    // පිටුව මුලින්ම load වන විට Chart එක setup කිරීම
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Income', 'Expense'],
+                datasets: [{
+                    data: [0, 0],
+                    backgroundColor: ['#27ae60', '#e74c3c'],
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    });
+
+    function addTransaction() {
+        const desc = document.getElementById('desc').value;
+        const amount = parseFloat(document.getElementById('amount').value);
+        const type = document.getElementById('type').value;
+
+        if (desc === "" || isNaN(amount)) {
+            alert("Please enter both Description and Amount!");
+            return;
+        }
+
+        const transaction = { desc, amount, type };
+        transactions.push(transaction);
+        
+        updateUI();
+        
+        // Input fields හිස් කිරීම
+        document.getElementById('desc').value = "";
+        document.getElementById('amount').value = "";
+    }
+
+    function updateUI() {
+        const list = document.getElementById('transactionList');
+        let incomeTotal = 0;
+        let expenseTotal = 0;
+
+        list.innerHTML = "";
+        
+        transactions.forEach(t => {
+            if (t.type === 'income') incomeTotal += t.amount;
+            else expenseTotal += t.amount;
+
+            const row = `
+                <tr>
+                    <td>${t.desc}</td>
+                    <td><span class="badge ${t.type === 'income' ? 'bg-success' : 'bg-danger'}">${t.type.toUpperCase()}</span></td>
+                    <td class="text-end ${t.type === 'income' ? 'income' : 'expense'}">LKR ${t.amount.toLocaleString()}</td>
+                </tr>
+            `;
+            list.innerHTML += row;
+        });
+
+        // Summary අගයන් Update කිරීම
+        document.getElementById('totalIncome').innerText = `LKR ${incomeTotal.toLocaleString()}`;
+        document.getElementById('totalExpense').innerText = `LKR ${expenseTotal.toLocaleString()}`;
+        document.getElementById('totalBalance').innerText = `LKR ${(incomeTotal - expenseTotal).toLocaleString()}`;
+
+        // Pie Chart එක Update කිරීම
+        if (myChart) {
+            myChart.data.datasets[0].data = [incomeTotal, expenseTotal];
+            myChart.update();
+        }
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
