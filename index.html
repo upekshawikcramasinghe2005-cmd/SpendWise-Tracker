@@ -179,7 +179,7 @@
         document.getElementById('totalExpense').innerText = `LKR ${expenseTotal.toLocaleString()}`;
         document.getElementById('totalBalance').innerText = `LKR ${(incomeTotal - expenseTotal).toLocaleString()}`;
 
-        // Pie Chart එක Update කිරීම
+        
         if (myChart) {
             myChart.data.datasets[0].data = [incomeTotal, expenseTotal];
             myChart.update();
